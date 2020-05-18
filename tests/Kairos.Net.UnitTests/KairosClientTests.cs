@@ -36,7 +36,7 @@ namespace Kairos.Net.UnitTests
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.EnrollImageAsync(null, "subject","gallery");
+            Func<Task> func = async () => await client.EnrollImageAsync((Base64Image)null, "subject","gallery");
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("base64Image");
@@ -44,7 +44,7 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void EnrollImageAsync_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
+        public void EnrollImageAsync_Base64Overload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
         {
             var client = CreateClient();
 
@@ -56,11 +56,52 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void EnrollImageAsync_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        public void EnrollImageAsync_Base64Overload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
         {
             var client = CreateClient();
 
             Func<Task> func = async () => await client.EnrollImageAsync((Base64Image)"base64", "subject", galleryName);
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("galleryName");
+        }
+
+        [Test]
+        public void EnrollImageAsync_WithNullUri_ThrowsException()
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.EnrollImageAsync((Uri)null, "subject", "gallery");
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("imageUri");
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void EnrollImageAsync_UriOverload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.EnrollImageAsync(
+                new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
+                subjectId,
+                "gallery");
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("subjectId");
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void EnrollImageAsync_UriOverload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.EnrollImageAsync(
+                new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
+                "subject",
+                galleryName);
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("galleryName");

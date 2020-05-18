@@ -35,7 +35,7 @@ namespace Kairos.Net
       
         public Task<EnrolmentResponse> EnrollImageAsync(Base64Image base64Image, string subjectId, string galleryName)
         {
-            if (base64Image == null)
+            if (base64Image is null)
             {
                 throw new ArgumentException("base64 image is required", nameof(base64Image));
             }
@@ -51,6 +51,26 @@ namespace Kairos.Net
             }
 
             return EnrollImage(base64Image.Value, subjectId, galleryName);
+        }
+
+        public Task<EnrolmentResponse> EnrollImageAsync(Uri imageUri, string subjectId, string galleryName)
+        {
+            if (imageUri is null)
+            {
+                throw new ArgumentException("image uri is required",nameof(imageUri));
+            }
+
+            if (string.IsNullOrWhiteSpace(subjectId))
+            {
+                throw new ArgumentException("subject id is required", nameof(subjectId));
+            }
+
+            if (string.IsNullOrWhiteSpace(galleryName))
+            {
+                throw new ArgumentException("gallery name is required", nameof(galleryName));
+            }
+
+            return EnrollImage(imageUri.ToString(), subjectId, galleryName);
         }
 
         private async Task<EnrolmentResponse> EnrollImage(string image, string subjectId, string galleryName)
