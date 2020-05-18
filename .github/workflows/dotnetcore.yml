@@ -20,7 +20,7 @@ jobs:
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test and generate coverage
-      run: dotnet test Kairos.Net.sln --logger:trx --results-directory ../TestResults \ "/p:CollectCoverage=true" \ "/p:CoverletOutput=../../TestResults/" \ "/p:MergeWith=../../TestResults/coverlet.json" \ "/p:CoverletOutputFormat=\"json,lcov\""    
+      run: dotnet test Kairos.Net.sln --results-directory ../TestResults \ "/p:CollectCoverage=true" \ "/p:CoverletOutput=../../TestResults/" \ "/p:MergeWith=../../TestResults/coverlet.json" \ "/p:CoverletOutputFormat=\"json,lcov\""    
     - name: Publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master
       with:
