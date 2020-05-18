@@ -92,6 +92,65 @@ namespace Kairos.Net
             return JsonConvert.DeserializeObject<EnrolmentResponse>(response.Content);
         }
 
+        public Task<VerifyResponse> VerifyImageAsync(Base64Image base64Image, string subjectId, string galleryName)
+        {
+            if (base64Image is null)
+            {
+                throw new ArgumentException("base64 image is required",nameof(base64Image));
+            }
+
+            if (string.IsNullOrWhiteSpace(subjectId))
+            {
+                throw new ArgumentException("subject id is required", nameof(subjectId));
+            }
+
+            if (string.IsNullOrWhiteSpace(galleryName))
+            {
+                throw new ArgumentException("gallery name", nameof(galleryName));
+            }
+
+            return VerifyImage(base64Image.Value, subjectId, galleryName);
+        }
+
+        public Task<VerifyResponse> VerifyImageAsync(Uri imageUri, string subjectId, string galleryName)
+        {
+            if (imageUri is null)
+            {
+                throw new ArgumentException("base64 image is required", nameof(imageUri));
+            }
+
+            if (string.IsNullOrWhiteSpace(subjectId))
+            {
+                throw new ArgumentException("subject id is required", nameof(subjectId));
+            }
+
+            if (string.IsNullOrWhiteSpace(galleryName))
+            {
+                throw new ArgumentException("gallery name", nameof(galleryName));
+            }
+
+            return VerifyImage(imageUri.ToString(), subjectId, galleryName);
+        }
+
+        private async Task<VerifyResponse> VerifyImage(string image, string subjectId, string galleryName)
+        {
+            var httpClient = new RestClient(BaseUrl);
+            var request = CreateRequest("enroll", Method.POST);
+
+            var payload = new
+            {
+                image = image,
+                subject_id = subjectId,
+                gallery_name = galleryName
+            };
+
+            request.AddJsonBody(payload);
+
+            var response = await httpClient.ExecuteAsync(request);
+
+            return JsonConvert.DeserializeObject<VerifyResponse>(response.Content);
+        }
+
         private RestRequest CreateRequest(string resource, Method method)
         {
             var request = new RestRequest(method)
