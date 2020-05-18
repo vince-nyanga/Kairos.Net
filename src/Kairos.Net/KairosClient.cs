@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Kairos.Net.Models;
 using Newtonsoft.Json;
@@ -50,7 +48,14 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name is required", nameof(galleryName));
             }
 
-            return SendImage<EnrolmentResponse>("enroll", base64Image.Value, subjectId, galleryName);
+            var payload = new
+            {
+                image = base64Image.Value,
+                subject_id = subjectId,
+                gallery_name = galleryName
+            };
+
+            return SendImage<EnrolmentResponse>("enroll", payload);
         }
 
         public Task<EnrolmentResponse> EnrollImageAsync(Uri imageUri, string subjectId, string galleryName)
@@ -70,7 +75,14 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name is required", nameof(galleryName));
             }
 
-            return SendImage<EnrolmentResponse>("enroll",imageUri.ToString(), subjectId, galleryName); 
+            var payload = new
+            {
+                image = imageUri.ToString(),
+                subject_id = subjectId,
+                gallery_name = galleryName
+            };
+
+            return SendImage<EnrolmentResponse>("enroll",payload); 
         }
 
 
@@ -91,7 +103,13 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name", nameof(galleryName));
             }
 
-            return SendImage<VerifyResponse>("verify", base64Image.Value, subjectId, galleryName);
+            var payload = new
+            {
+                image = base64Image.Value,
+                subject_id = subjectId,
+                gallery_name = galleryName
+            };
+            return SendImage<VerifyResponse>("verify", payload);
         }
 
         public Task<VerifyResponse> VerifyImageAsync(Uri imageUri, string subjectId, string galleryName)
@@ -111,39 +129,20 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name", nameof(galleryName));
             }
 
-            return SendImage<VerifyResponse>("verify",imageUri.ToString(), subjectId, galleryName);
-        }
-
-        private async Task<T> SendImage<T>(string resourceUri,string image, string subjectId, string galleryName)
-        {
-            var httpClient = new RestClient(BaseUrl);
-            var request = CreateRequest(resourceUri, Method.POST);
-
             var payload = new
             {
-                image = image,
+                image = imageUri.ToString(),
                 subject_id = subjectId,
                 gallery_name = galleryName
             };
 
-            request.AddJsonBody(payload);
-
-            var response = await httpClient.ExecuteAsync(request);
-
-            return JsonConvert.DeserializeObject<T>(response.Content);
+            return SendImage<VerifyResponse>("verify",payload);
         }
 
-        private async Task<T> SendImage<T>(string resourceUri, string image, string galleryName)
+        private async Task<T> SendImage<T>(string resourceUri,object payload)
         {
             var httpClient = new RestClient(BaseUrl);
             var request = CreateRequest(resourceUri, Method.POST);
-
-            var payload = new
-            {
-                image = image,
-                gallery_name = galleryName
-            };
-
             request.AddJsonBody(payload);
 
             var response = await httpClient.ExecuteAsync(request);
@@ -177,7 +176,13 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name is required", nameof(galleryName));
             }
 
-            return SendImage<RecognitionResponse>("recognize", base64Image.Value, galleryName);
+            var payload = new
+            {
+                image = base64Image.Value,
+                gallery_name = galleryName
+            };
+
+            return SendImage<RecognitionResponse>("recognize", payload);
         }
 
         public Task<RecognitionResponse> RecognizeImageAsync(Uri imageUri, string galleryName)
@@ -192,7 +197,13 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name is required", nameof(galleryName));
             }
 
-            return SendImage<RecognitionResponse>("recognize", imageUri.ToString(), galleryName);
+            var payload = new
+            {
+                image = imageUri.ToString(),
+                gallery_name = galleryName
+            };
+
+            return SendImage<RecognitionResponse>("recognize",payload);
         }
     }
 }
