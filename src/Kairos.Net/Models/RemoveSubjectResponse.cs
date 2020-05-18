@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Kairos.Net.Models
 {
+    [ExcludeFromCodeCoverage]
     public class RemoveSubjectResponse : BaseResponse
     {
         [JsonProperty("status")]

@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Kairos.Net.Models
 {
     public class Base64Image

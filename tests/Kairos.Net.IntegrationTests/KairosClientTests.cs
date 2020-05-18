@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using FluentAssertions;
 using Kairos.Net.Models;
 using NUnit.Framework;
@@ -22,6 +21,8 @@ namespace Kairos.Net.IntegrationTests
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
+
+            response.FaceId.Should().NotBeNull();
         }
 
         private KairosClient CreateClient()
