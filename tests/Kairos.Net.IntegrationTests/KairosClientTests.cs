@@ -22,7 +22,6 @@ namespace Kairos.Net.IntegrationTests
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
-
             response.FaceId.Should().NotBeNull();
         }
 
@@ -39,8 +38,39 @@ namespace Kairos.Net.IntegrationTests
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
-
             response.FaceId.Should().NotBeNull();
+        }
+
+        [Test]
+        public async Task VerifyImageAsync_WithBase64Image_ReturnsCorrectResponse()
+        {
+            var client = CreateClient();
+
+
+            var response = await client.VerifyImageAsync(
+                (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
+                "Elizabeth",
+                "MyGallery");
+
+            response.Should().NotBeNull();
+            response.Images.Count.Should().Be(1);
+            response.Errors.Should().BeNull();
+        }
+
+        [Test]
+        public async Task VerifyImageAsync_WithImageUri_ReturnsCorrectResponse()
+        {
+            var client = CreateClient();
+
+
+            var response = await client.VerifyImageAsync(
+                new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
+                "Elizabeth",
+                "MyGallery");
+
+            response.Should().NotBeNull();
+            response.Images.Count.Should().Be(1);
+            response.Errors.Should().BeNull();
         }
 
         private KairosClient CreateClient()

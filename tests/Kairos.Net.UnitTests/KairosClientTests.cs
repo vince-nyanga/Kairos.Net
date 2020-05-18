@@ -107,6 +107,82 @@ namespace Kairos.Net.UnitTests
                 .And.ParamName.Should().Be("galleryName");
         }
 
+        [Test]
+        public void VerifyImageAsync_WithNullBase64Image_ThrowsException()
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.VerifyImageAsync((Base64Image)null, "subject", "gallery");
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("base64Image");
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void VerifyImageAsync_Base64Overload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.VerifyImageAsync((Base64Image)"base64", subjectId, "gallery");
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("subjectId");
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void VerifyImageAsync_Base64Overload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.VerifyImageAsync((Base64Image)"base64", "subject", galleryName);
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("galleryName");
+        }
+
+        [Test]
+        public void VerifyImageAsync_WithNullUri_ThrowsException()
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.VerifyImageAsync((Uri)null, "subject", "gallery");
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("imageUri");
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void VerifyImageAsync_UriOverload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.VerifyImageAsync(
+                new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
+                subjectId,
+                "gallery");
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("subjectId");
+        }
+
+        [TestCase(null)]
+        [TestCase("")]
+        public void VerifyImageAsync_UriOverload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.VerifyImageAsync(
+                new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
+                "subject",
+                galleryName);
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("galleryName");
+        }
+
         private KairosClient CreateClient()
         {
             return new KairosClient("fakeAppId", "fakeApiKey");
