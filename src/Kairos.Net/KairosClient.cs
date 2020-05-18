@@ -50,7 +50,7 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name is required", nameof(galleryName));
             }
 
-            return EnrollImage(base64Image.Value, subjectId, galleryName);
+            return SendImage<EnrolmentResponse>("enroll", base64Image.Value, subjectId, galleryName);
         }
 
         public Task<EnrolmentResponse> EnrollImageAsync(Uri imageUri, string subjectId, string galleryName)
@@ -70,27 +70,9 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name is required", nameof(galleryName));
             }
 
-            return EnrollImage(imageUri.ToString(), subjectId, galleryName);
+            return SendImage<EnrolmentResponse>("enroll",imageUri.ToString(), subjectId, galleryName); 
         }
 
-        private async Task<EnrolmentResponse> EnrollImage(string image, string subjectId, string galleryName)
-        {
-            var httpClient = new RestClient(BaseUrl);
-            var request = CreateRequest("enroll", Method.POST);
-
-            var payload = new
-            {
-                image = image,
-                subject_id = subjectId,
-                gallery_name = galleryName
-            };
-
-            request.AddJsonBody(payload);
-
-            var response = await httpClient.ExecuteAsync(request);
-
-            return JsonConvert.DeserializeObject<EnrolmentResponse>(response.Content);
-        }
 
         public Task<VerifyResponse> VerifyImageAsync(Base64Image base64Image, string subjectId, string galleryName)
         {
@@ -109,7 +91,7 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name", nameof(galleryName));
             }
 
-            return VerifyImage(base64Image.Value, subjectId, galleryName);
+            return SendImage<VerifyResponse>("verify", base64Image.Value, subjectId, galleryName);
         }
 
         public Task<VerifyResponse> VerifyImageAsync(Uri imageUri, string subjectId, string galleryName)
@@ -129,13 +111,13 @@ namespace Kairos.Net
                 throw new ArgumentException("gallery name", nameof(galleryName));
             }
 
-            return VerifyImage(imageUri.ToString(), subjectId, galleryName);
+            return SendImage<VerifyResponse>("verify",imageUri.ToString(), subjectId, galleryName);
         }
 
-        private async Task<VerifyResponse> VerifyImage(string image, string subjectId, string galleryName)
+        private async Task<T> SendImage<T>(string resourceUri,string image, string subjectId, string galleryName)
         {
             var httpClient = new RestClient(BaseUrl);
-            var request = CreateRequest("enroll", Method.POST);
+            var request = CreateRequest(resourceUri, Method.POST);
 
             var payload = new
             {
@@ -148,7 +130,7 @@ namespace Kairos.Net
 
             var response = await httpClient.ExecuteAsync(request);
 
-            return JsonConvert.DeserializeObject<VerifyResponse>(response.Content);
+            return JsonConvert.DeserializeObject<T>(response.Content);
         }
 
         private RestRequest CreateRequest(string resource, Method method)
