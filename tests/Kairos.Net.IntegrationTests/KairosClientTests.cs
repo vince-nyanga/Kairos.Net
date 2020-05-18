@@ -10,12 +10,12 @@ namespace Kairos.Net.IntegrationTests
     public class KairosClientTests
     {
         [Test]
-        public async Task EnrollImageAsync_WithBase64Image_ReturnsCorrectResponse()
+        public async Task EnrollFaceAsync_WithBase64Image_ReturnsCorrectResponse()
         {
             var client = CreateClient();
 
 
-            var response = await client.EnrollImageAsync(
+            var response = await client.EnrollFaceAsync(
                 (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
                 "Elizabeth",
                 "MyGallery");
@@ -26,12 +26,12 @@ namespace Kairos.Net.IntegrationTests
         }
 
         [Test]
-        public async Task EnrollImageAsync_WithImageUri_ReturnsCorrectResponse()
+        public async Task EnrollFaceAsync_WithImageUri_ReturnsCorrectResponse()
         {
             var client = CreateClient();
 
 
-            var response = await client.EnrollImageAsync(
+            var response = await client.EnrollFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"), 
                 "Elizabeth",
                 "MyGallery");
@@ -42,12 +42,12 @@ namespace Kairos.Net.IntegrationTests
         }
 
         [Test]
-        public async Task VerifyImageAsync_WithBase64Image_ReturnsCorrectResponse()
+        public async Task VerifyFaceAsync_WithBase64Image_ReturnsCorrectResponse()
         {
             var client = CreateClient();
 
 
-            var response = await client.VerifyImageAsync(
+            var response = await client.VerifyFaceAsync(
                 (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
                 "Elizabeth",
                 "MyGallery");
@@ -58,12 +58,12 @@ namespace Kairos.Net.IntegrationTests
         }
 
         [Test]
-        public async Task VerifyImageAsync_WithImageUri_ReturnsCorrectResponse()
+        public async Task VerifyFaceAsync_WithImageUri_ReturnsCorrectResponse()
         {
             var client = CreateClient();
 
 
-            var response = await client.VerifyImageAsync(
+            var response = await client.VerifyFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
                 "Elizabeth",
                 "MyGallery");
@@ -74,12 +74,12 @@ namespace Kairos.Net.IntegrationTests
         }
 
         [Test]
-        public async Task RecognizeImageAsync_WithBase64Image_ReturnsCorrectResponse()
+        public async Task RecognizeFaceAsync_WithBase64Image_ReturnsCorrectResponse()
         {
             var client = CreateClient();
 
 
-            var response = await client.RecognizeImageAsync(
+            var response = await client.RecognizeFaceAsync(
                 (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
                 "MyGallery");
 
@@ -90,18 +90,49 @@ namespace Kairos.Net.IntegrationTests
         }
 
         [Test]
-        public async Task RecognizeImageAsync_WithImageUri_ReturnsCorrectResponse()
+        public async Task RecognizeFaceAsync_WithImageUri_ReturnsCorrectResponse()
         {
             var client = CreateClient();
 
 
-            var response = await client.RecognizeImageAsync(
+            var response = await client.RecognizeFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
                 "MyGallery");
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
             response.Images[0].Candidates[0].SubjectId.Should().Be("Elizabeth");
+            response.Errors.Should().BeNull();
+        }
+
+
+        [Test]
+        public async Task DetectFacesAsync_WithBase64Image_ReturnsCorrectResponse()
+        {
+            var client = CreateClient();
+
+
+            var response = await client.DetectFacesAsync(
+                (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg");
+
+            response.Should().NotBeNull();
+            response.Images.Count.Should().Be(1);
+            response.Images[0].Faces.Count.Should().Be(1);
+            response.Errors.Should().BeNull();
+        }
+
+        [Test]
+        public async Task DetectFacesAsync_WithImageUri_ReturnsCorrectResponse()
+        {
+            var client = CreateClient();
+
+
+            var response = await client.DetectFacesAsync(
+                new Uri("https://media.kairos.com/kairos-elizabeth.jpg"));
+
+            response.Should().NotBeNull();
+            response.Images.Count.Should().Be(1);
+            response.Images[0].Faces.Count.Should().Be(1);
             response.Errors.Should().BeNull();
         }
 

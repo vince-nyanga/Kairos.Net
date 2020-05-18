@@ -32,11 +32,11 @@ namespace Kairos.Net.UnitTests
         }
 
         [Test]
-        public void EnrollImageAsync_WithNullBase64Image_ThrowsException()
+        public void EnrollFaceAsync_WithNullBase64Image_ThrowsException()
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.EnrollImageAsync((Base64Image)null, "subject","gallery");
+            Func<Task> func = async () => await client.EnrollFaceAsync((Base64Image)null, "subject","gallery");
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("base64Image");
@@ -44,11 +44,11 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void EnrollImageAsync_Base64Overload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
+        public void EnrollFaceAsync_Base64Overload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.EnrollImageAsync((Base64Image)"base64", subjectId, "gallery");
+            Func<Task> func = async () => await client.EnrollFaceAsync((Base64Image)"base64", subjectId, "gallery");
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("subjectId");
@@ -56,22 +56,22 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void EnrollImageAsync_Base64Overload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        public void EnrollFaceAsync_Base64Overload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.EnrollImageAsync((Base64Image)"base64", "subject", galleryName);
+            Func<Task> func = async () => await client.EnrollFaceAsync((Base64Image)"base64", "subject", galleryName);
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("galleryName");
         }
 
         [Test]
-        public void EnrollImageAsync_WithNullUri_ThrowsException()
+        public void EnrollFaceAsync_WithNullUri_ThrowsException()
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.EnrollImageAsync((Uri)null, "subject", "gallery");
+            Func<Task> func = async () => await client.EnrollFaceAsync((Uri)null, "subject", "gallery");
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("imageUri");
@@ -79,11 +79,11 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void EnrollImageAsync_UriOverload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
+        public void EnrollFaceAsync_UriOverload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.EnrollImageAsync(
+            Func<Task> func = async () => await client.EnrollFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
                 subjectId,
                 "gallery");
@@ -94,11 +94,11 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void EnrollImageAsync_UriOverload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        public void EnrollFaceAsync_UriOverload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.EnrollImageAsync(
+            Func<Task> func = async () => await client.EnrollFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
                 "subject",
                 galleryName);
@@ -108,11 +108,11 @@ namespace Kairos.Net.UnitTests
         }
 
         [Test]
-        public void VerifyImageAsync_WithNullBase64Image_ThrowsException()
+        public void VerifyFaceAsync_WithNullBase64Image_ThrowsException()
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.VerifyImageAsync((Base64Image)null, "subject", "gallery");
+            Func<Task> func = async () => await client.VerifyFaceAsync((Base64Image)null, "subject", "gallery");
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("base64Image");
@@ -120,11 +120,11 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void VerifyImageAsync_Base64Overload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
+        public void VerifyFaceAsync_Base64Overload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.VerifyImageAsync((Base64Image)"base64", subjectId, "gallery");
+            Func<Task> func = async () => await client.VerifyFaceAsync((Base64Image)"base64", subjectId, "gallery");
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("subjectId");
@@ -132,22 +132,22 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void VerifyImageAsync_Base64Overload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        public void VerifyFaceAsync_Base64Overload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.VerifyImageAsync((Base64Image)"base64", "subject", galleryName);
+            Func<Task> func = async () => await client.VerifyFaceAsync((Base64Image)"base64", "subject", galleryName);
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("galleryName");
         }
 
         [Test]
-        public void VerifyImageAsync_WithNullUri_ThrowsException()
+        public void VerifyFaceAsync_WithNullUri_ThrowsException()
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.VerifyImageAsync((Uri)null, "subject", "gallery");
+            Func<Task> func = async () => await client.VerifyFaceAsync((Uri)null, "subject", "gallery");
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("imageUri");
@@ -155,11 +155,11 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void VerifyImageAsync_UriOverload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
+        public void VerifyFaceAsync_UriOverload_WithNullOrEmptySubjectId_ThrowsException(string subjectId)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.VerifyImageAsync(
+            Func<Task> func = async () => await client.VerifyFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
                 subjectId,
                 "gallery");
@@ -170,11 +170,11 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void VerifyImageAsync_UriOverload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        public void VerifyFaceAsync_UriOverload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.VerifyImageAsync(
+            Func<Task> func = async () => await client.VerifyFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
                 "subject",
                 galleryName);
@@ -184,11 +184,11 @@ namespace Kairos.Net.UnitTests
         }
 
         [Test]
-        public void RecognizeImageAsync_WithNullBase64Image_ThrowsException()
+        public void RecognizeFaceAsync_WithNullBase64Image_ThrowsException()
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.RecognizeImageAsync((Base64Image)null,"gallery");
+            Func<Task> func = async () => await client.RecognizeFaceAsync((Base64Image)null,"gallery");
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("base64Image");
@@ -197,22 +197,22 @@ namespace Kairos.Net.UnitTests
     
         [TestCase(null)]
         [TestCase("")]
-        public void RecognizeImageAsync_Base64Overload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        public void RecognizeFaceAsync_Base64Overload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.RecognizeImageAsync((Base64Image)"base64", galleryName);
+            Func<Task> func = async () => await client.RecognizeFaceAsync((Base64Image)"base64", galleryName);
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("galleryName");
         }
 
         [Test]
-        public void RecognizeImageAsync_WithNullUri_ThrowsException()
+        public void RecognizeFaceAsync_WithNullUri_ThrowsException()
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.RecognizeImageAsync((Uri)null, "gallery");
+            Func<Task> func = async () => await client.RecognizeFaceAsync((Uri)null, "gallery");
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("imageUri");
@@ -221,16 +221,38 @@ namespace Kairos.Net.UnitTests
 
         [TestCase(null)]
         [TestCase("")]
-        public void RecognizeImageAsync_UriOverload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
+        public void RecognizeFaceAsync_UriOverload_WithNullOrEmptyGalleryName_ThrowsException(string galleryName)
         {
             var client = CreateClient();
 
-            Func<Task> func = async () => await client.RecognizeImageAsync(
+            Func<Task> func = async () => await client.RecognizeFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
                 galleryName);
 
             func.Should().Throw<ArgumentException>()
                 .And.ParamName.Should().Be("galleryName");
+        }
+
+        [Test]
+        public void DetectFacesAsync_WithNullBase64Image_ThrowsException()
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.DetectFacesAsync((Base64Image)null);
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("base64Image");
+        }
+
+        [Test]
+        public void DetectFacesAsync_WithNullImageUri_ThrowsException()
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.DetectFacesAsync((Uri)null);
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("imageUri");
         }
 
         private KairosClient CreateClient()

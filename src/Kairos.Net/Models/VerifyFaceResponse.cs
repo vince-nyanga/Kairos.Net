@@ -3,9 +3,9 @@ using Newtonsoft.Json;
 
 namespace Kairos.Net.Models
 {
-    public class DetectionResponse : BaseResponse
+    public class VerifyFaceResponse : BaseResponse
     {
         [JsonProperty("images")]
-        public IList<DetectionImage> Images { get; set; }
+        public IList<BaseImage> Images { get; set; }
     }
 }
