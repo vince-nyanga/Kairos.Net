@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace Kairos.Net.Models
 {
-    public class EnrolmentResponse : BaseResponse
+    public class EnrollFaceResponse : BaseResponse
     {
         [JsonProperty("face_id")]
         public string FaceId { get; set; }

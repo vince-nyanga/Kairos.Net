@@ -31,7 +31,7 @@ namespace Kairos.Net
         }
 
       
-        public Task<EnrolmentResponse> EnrollImageAsync(Base64Image base64Image, string subjectId, string galleryName)
+        public Task<EnrollFaceResponse> EnrollFaceAsync(Base64Image base64Image, string subjectId, string galleryName)
         {
             if (base64Image is null)
             {
@@ -55,10 +55,10 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<EnrolmentResponse>("enroll", payload);
+            return SendImage<EnrollFaceResponse>("enroll", payload);
         }
 
-        public Task<EnrolmentResponse> EnrollImageAsync(Uri imageUri, string subjectId, string galleryName)
+        public Task<EnrollFaceResponse> EnrollFaceAsync(Uri imageUri, string subjectId, string galleryName)
         {
             if (imageUri is null)
             {
@@ -82,11 +82,11 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<EnrolmentResponse>("enroll",payload); 
+            return SendImage<EnrollFaceResponse>("enroll",payload); 
         }
 
 
-        public Task<VerifyResponse> VerifyImageAsync(Base64Image base64Image, string subjectId, string galleryName)
+        public Task<VerifyFaceResponse> VerifyFaceAsync(Base64Image base64Image, string subjectId, string galleryName)
         {
             if (base64Image is null)
             {
@@ -109,10 +109,10 @@ namespace Kairos.Net
                 subject_id = subjectId,
                 gallery_name = galleryName
             };
-            return SendImage<VerifyResponse>("verify", payload);
+            return SendImage<VerifyFaceResponse>("verify", payload);
         }
 
-        public Task<VerifyResponse> VerifyImageAsync(Uri imageUri, string subjectId, string galleryName)
+        public Task<VerifyFaceResponse> VerifyFaceAsync(Uri imageUri, string subjectId, string galleryName)
         {
             if (imageUri is null)
             {
@@ -136,7 +136,7 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<VerifyResponse>("verify",payload);
+            return SendImage<VerifyFaceResponse>("verify",payload);
         }
 
         private async Task<T> SendImage<T>(string resourceUri,object payload)
@@ -164,7 +164,7 @@ namespace Kairos.Net
             return request;
         }
 
-        public Task<RecognitionResponse> RecognizeImageAsync(Base64Image base64Image, string galleryName)
+        public Task<RecognizeFaceResponse> RecognizeFaceAsync(Base64Image base64Image, string galleryName)
         {
             if (base64Image is null)
             {
@@ -182,10 +182,10 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<RecognitionResponse>("recognize", payload);
+            return SendImage<RecognizeFaceResponse>("recognize", payload);
         }
 
-        public Task<RecognitionResponse> RecognizeImageAsync(Uri imageUri, string galleryName)
+        public Task<RecognizeFaceResponse> RecognizeFaceAsync(Uri imageUri, string galleryName)
         {
             if (imageUri is null)
             {
@@ -203,7 +203,39 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<RecognitionResponse>("recognize",payload);
+            return SendImage<RecognizeFaceResponse>("recognize",payload);
+        }
+
+        public Task<DetectFacesResponse> DetectFacesAsync(Base64Image base64Image, string selector = "ROLL")
+        {
+            if (base64Image is null)
+            {
+                throw new ArgumentException("base64 image is required",nameof(base64Image));
+            }
+
+            var payload = new
+            {
+                image = base64Image.Value,
+                selector = selector
+            };
+
+            return SendImage<DetectFacesResponse>("detect", payload);
+        }
+
+        public Task<DetectFacesResponse> DetectFacesAsync(Uri imageUri, string selector = "ROLL")
+        {
+            if (imageUri is null)
+            {
+                throw new ArgumentException("image uri is required",nameof(imageUri));
+            }
+
+            var payload = new
+            {
+                image = imageUri.ToString(),
+                selector = selector
+            };
+
+            return SendImage<DetectFacesResponse>("detect", payload);
         }
     }
 }
