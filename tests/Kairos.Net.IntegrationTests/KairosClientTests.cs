@@ -9,6 +9,9 @@ namespace Kairos.Net.IntegrationTests
     [TestFixture]
     public class KairosClientTests
     {
+        private readonly string _subjectId = "Elizabeth";
+        private readonly string _galleryName = "MyGallery";
+
         [Test]
         public async Task EnrollFaceAsync_WithBase64Image_ReturnsCorrectResponse()
         {
@@ -17,8 +20,8 @@ namespace Kairos.Net.IntegrationTests
 
             var response = await client.EnrollFaceAsync(
                 (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
-                "Elizabeth",
-                "MyGallery");
+                _subjectId,
+                _galleryName);
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
@@ -33,8 +36,8 @@ namespace Kairos.Net.IntegrationTests
 
             var response = await client.EnrollFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"), 
-                "Elizabeth",
-                "MyGallery");
+                _subjectId,
+                _galleryName);
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
@@ -49,8 +52,8 @@ namespace Kairos.Net.IntegrationTests
 
             var response = await client.VerifyFaceAsync(
                 (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
-                "Elizabeth",
-                "MyGallery");
+                _subjectId,
+                _galleryName);
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
@@ -65,8 +68,8 @@ namespace Kairos.Net.IntegrationTests
 
             var response = await client.VerifyFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
-                "Elizabeth",
-                "MyGallery");
+                _subjectId,
+                _galleryName);
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
@@ -81,11 +84,11 @@ namespace Kairos.Net.IntegrationTests
 
             var response = await client.RecognizeFaceAsync(
                 (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
-                "MyGallery");
+                _galleryName);
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
-            response.Images[0].Candidates[0].SubjectId.Should().Be("Elizabeth");
+            response.Images[0].Candidates[0].SubjectId.Should().Be(_subjectId);
             response.Errors.Should().BeNull();
         }
 
@@ -97,11 +100,11 @@ namespace Kairos.Net.IntegrationTests
 
             var response = await client.RecognizeFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
-                "MyGallery");
+                _galleryName);
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
-            response.Images[0].Candidates[0].SubjectId.Should().Be("Elizabeth");
+            response.Images[0].Candidates[0].SubjectId.Should().Be(_subjectId);
             response.Errors.Should().BeNull();
         }
 
@@ -143,46 +146,42 @@ namespace Kairos.Net.IntegrationTests
             var client = CreateClient();
             await client.EnrollFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
-                "Elizabeth",
-                "MyGallery"
+                _subjectId,
+                _galleryName
                 );
 
             var response = await client.ListGalleriesAsync();
 
-            response.GalleryNames.Should().Contain("MyGallery");
+            response.GalleryNames.Should().Contain(_galleryName);
 
         }
 
         [Test]
         public async Task ListFacesAsync_ReturnsFaceList()
-        {
-            var galleryName = "MyGallery";
-            var subjectId = "Elizabeth";
+        { 
             var client = CreateClient();
             await client.EnrollFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
-                subjectId,
-                galleryName
+                _subjectId,
+                _galleryName
                 );
 
-            var response = await client.ListFacesAsync(galleryName);
+            var response = await client.ListFacesAsync(_galleryName);
 
-            response.Faces.Should().Contain(subjectId);
+            response.Faces.Should().Contain(_subjectId);
         }
 
         [Test]
         public async Task RemoveGalleryAsync_RemovesGallery()
         {
-            var galleryName = "MyGallery";
-            var subjectId = "Elizabeth";
             var client = CreateClient();
             await client.EnrollFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
-                subjectId,
-                galleryName
+                _subjectId,
+                _galleryName
                 );
 
-            var response = await client.RemoveGalleryAsync(galleryName);
+            var response = await client.RemoveGalleryAsync(_galleryName);
 
             response.Errors.Should().BeNullOrEmpty();
         }

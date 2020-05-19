@@ -292,7 +292,6 @@ namespace Kairos.Net.UnitTests
                 .And.ParamName.Should().Be("galleryName");
         }
 
-
         private KairosClient CreateClient()
         {
             return new KairosClient("fakeAppId", "fakeApiKey");
