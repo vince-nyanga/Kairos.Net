@@ -266,6 +266,20 @@ namespace Kairos.Net.UnitTests
                 .And.ParamName.Should().Be("imageUri");
         }
 
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("\t")]
+        public void ListFacesAsync_WithNullOrWhiteSpaceGalleryName_ThrowsException(string galleryName)
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.ListFacesAsync(galleryName);
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("galleryName");
+        }
+
+
         private KairosClient CreateClient()
         {
             return new KairosClient("fakeAppId", "fakeApiKey");

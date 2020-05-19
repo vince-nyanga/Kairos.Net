@@ -251,5 +251,20 @@ namespace Kairos.Net
 
             return SendPostRequest<DetectFacesResponse>("detect", payload);
         }
+
+        public Task<ListFacesResponse> ListFacesAsync(string galleryName)
+        {
+            if (string.IsNullOrWhiteSpace(galleryName))
+            {
+                throw new ArgumentException("gallery name is required", nameof(galleryName));
+            }
+
+            var payload = new
+            {
+                gallery_name = galleryName
+            };
+
+            return SendPostRequest<ListFacesResponse>("gallery/view", payload);
+        }
     }
 }
