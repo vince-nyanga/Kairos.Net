@@ -136,6 +136,22 @@ namespace Kairos.Net.IntegrationTests
             response.Errors.Should().BeNull();
         }
 
+        [Test]
+        public async Task ListGalleriesAsync_ReturnsGalleryList()
+        {
+            var client = CreateClient();
+            await client.EnrollFaceAsync(
+                new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
+                "Elizabeth",
+                "MyGallery"
+                );
+
+            GalleryListResponse response = await client.ListGalleriesAsync();
+
+            response.GalleryNames.Should().Contain("MyGallery");
+
+        }
+
         private KairosClient CreateClient()
         {
             return new KairosClient(

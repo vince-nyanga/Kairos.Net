@@ -148,11 +148,20 @@ namespace Kairos.Net
         private async Task<T> SendPostRequest<T>(string resourceUri,object payload)
         {
             var request = CreateRequest(resourceUri, Method.POST);
-            request.AddJsonBody(payload);
 
+            if (payload != null)
+            {
+                request.AddJsonBody(payload);
+            }
+            
             var response = await _restClient.ExecuteAsync(request);
 
             return JsonConvert.DeserializeObject<T>(response.Content);
+        }
+
+        public Task<GalleryListResponse> ListGalleriesAsync()
+        {
+            return SendPostRequest<GalleryListResponse>("gallery/list_all", null);
         }
 
         private RestRequest CreateRequest(string resource, Method method)
