@@ -280,6 +280,6 @@ namespace Kairos.Net
             };
 
             return SendPostRequest<RemoveGalleryResponse>("gallery/remove", payload);
-        }
+        }   
     }
 }
