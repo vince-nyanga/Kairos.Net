@@ -279,6 +279,19 @@ namespace Kairos.Net.UnitTests
                 .And.ParamName.Should().Be("galleryName");
         }
 
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("\t")]
+        public void RemoveGalleryAsync_WithNullOrWhiteSpaceGalleryName_ThrowsException(string galleryName)
+        {
+            var client = CreateClient();
+
+            Func<Task> func = async () => await client.RemoveGalleryAsync(galleryName);
+
+            func.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("galleryName");
+        }
+
 
         private KairosClient CreateClient()
         {

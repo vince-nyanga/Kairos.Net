@@ -170,6 +170,23 @@ namespace Kairos.Net.IntegrationTests
             response.Faces.Should().Contain(subjectId);
         }
 
+        [Test]
+        public async Task RemoveGalleryAsync_RemovesGallery()
+        {
+            var galleryName = "MyGallery";
+            var subjectId = "Elizabeth";
+            var client = CreateClient();
+            await client.EnrollFaceAsync(
+                new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
+                subjectId,
+                galleryName
+                );
+
+            var response = await client.RemoveGalleryAsync(galleryName);
+
+            response.Errors.Should().BeNullOrEmpty();
+        }
+
         private KairosClient CreateClient()
         {
             return new KairosClient(
