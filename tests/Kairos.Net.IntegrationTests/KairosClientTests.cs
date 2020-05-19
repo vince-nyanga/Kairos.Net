@@ -139,6 +139,7 @@ namespace Kairos.Net.IntegrationTests
         [Test]
         public async Task ListGalleriesAsync_ReturnsGalleryList()
         {
+            
             var client = CreateClient();
             await client.EnrollFaceAsync(
                 new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
@@ -146,10 +147,27 @@ namespace Kairos.Net.IntegrationTests
                 "MyGallery"
                 );
 
-            GalleryListResponse response = await client.ListGalleriesAsync();
+            var response = await client.ListGalleriesAsync();
 
             response.GalleryNames.Should().Contain("MyGallery");
 
+        }
+
+        [Test]
+        public async Task ListFacesAsync_ReturnsFaceList()
+        {
+            var galleryName = "MyGallery";
+            var subjectId = "Elizabeth";
+            var client = CreateClient();
+            await client.EnrollFaceAsync(
+                new Uri("https://media.kairos.com/kairos-elizabeth.jpg"),
+                subjectId,
+                galleryName
+                );
+
+            var response = await client.ListFacesAsync(galleryName);
+
+            response.Faces.Should().Contain(subjectId);
         }
 
         private KairosClient CreateClient()
