@@ -7,14 +7,14 @@ using RestSharp;
 namespace Kairos.Net
 {
     public class KairosClient
-    {
-        public string BaseUrl { get; set; } = "https://api.kairos.com";
+    { 
         private const string CONTENT_TYPE = "application/json";
 
         private readonly string _appId;
         private readonly string _apiKey;
+        private readonly IRestClient _restClient;
 
-        public KairosClient(string appId, string apiKey)
+        public KairosClient(string appId, string apiKey, string baseUrl= "https://api.kairos.com")
         {
             if (string.IsNullOrWhiteSpace(appId))
             {
@@ -26,8 +26,14 @@ namespace Kairos.Net
                 throw new ArgumentException("apiKey is required", nameof(apiKey));
             }
 
+            if (string.IsNullOrWhiteSpace(baseUrl))
+            {
+                throw new ArgumentException("base url is requied", nameof(baseUrl));
+            }
+
             _appId = appId;
             _apiKey = apiKey;
+            _restClient = new RestClient(baseUrl);
         }
 
       
@@ -55,7 +61,7 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<EnrollFaceResponse>("enroll", payload);
+            return SendPostRequest<EnrollFaceResponse>("enroll", payload);
         }
 
         public Task<EnrollFaceResponse> EnrollFaceAsync(Uri imageUri, string subjectId, string galleryName)
@@ -82,7 +88,7 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<EnrollFaceResponse>("enroll",payload); 
+            return SendPostRequest<EnrollFaceResponse>("enroll",payload); 
         }
 
 
@@ -109,7 +115,7 @@ namespace Kairos.Net
                 subject_id = subjectId,
                 gallery_name = galleryName
             };
-            return SendImage<VerifyFaceResponse>("verify", payload);
+            return SendPostRequest<VerifyFaceResponse>("verify", payload);
         }
 
         public Task<VerifyFaceResponse> VerifyFaceAsync(Uri imageUri, string subjectId, string galleryName)
@@ -136,16 +142,15 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<VerifyFaceResponse>("verify",payload);
+            return SendPostRequest<VerifyFaceResponse>("verify",payload);
         }
 
-        private async Task<T> SendImage<T>(string resourceUri,object payload)
+        private async Task<T> SendPostRequest<T>(string resourceUri,object payload)
         {
-            var httpClient = new RestClient(BaseUrl);
             var request = CreateRequest(resourceUri, Method.POST);
             request.AddJsonBody(payload);
 
-            var response = await httpClient.ExecuteAsync(request);
+            var response = await _restClient.ExecuteAsync(request);
 
             return JsonConvert.DeserializeObject<T>(response.Content);
         }
@@ -182,7 +187,7 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<RecognizeFaceResponse>("recognize", payload);
+            return SendPostRequest<RecognizeFaceResponse>("recognize", payload);
         }
 
         public Task<RecognizeFaceResponse> RecognizeFaceAsync(Uri imageUri, string galleryName)
@@ -203,7 +208,7 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendImage<RecognizeFaceResponse>("recognize",payload);
+            return SendPostRequest<RecognizeFaceResponse>("recognize",payload);
         }
 
         public Task<DetectFacesResponse> DetectFacesAsync(Base64Image base64Image, string selector = "ROLL")
@@ -219,7 +224,7 @@ namespace Kairos.Net
                 selector = selector
             };
 
-            return SendImage<DetectFacesResponse>("detect", payload);
+            return SendPostRequest<DetectFacesResponse>("detect", payload);
         }
 
         public Task<DetectFacesResponse> DetectFacesAsync(Uri imageUri, string selector = "ROLL")
@@ -235,7 +240,7 @@ namespace Kairos.Net
                 selector = selector
             };
 
-            return SendImage<DetectFacesResponse>("detect", payload);
+            return SendPostRequest<DetectFacesResponse>("detect", payload);
         }
     }
 }

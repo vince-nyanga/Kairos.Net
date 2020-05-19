@@ -31,6 +31,17 @@ namespace Kairos.Net.UnitTests
                 .And.ParamName.Should().Be("apiKey");
         }
 
+        [TestCase(null)]
+        [TestCase("")]
+        [TestCase("\t")]
+        public void Constructor_WithNullOrWhiteSpaceBaseUrl_ThrowsException(string baseUrl)
+        {
+            Action action = () => new KairosClient("appId", "apiKey",baseUrl);
+
+            action.Should().Throw<ArgumentException>()
+                .And.ParamName.Should().Be("baseUrl");
+        }
+
         [Test]
         public void EnrollFaceAsync_WithNullBase64Image_ThrowsException()
         {
