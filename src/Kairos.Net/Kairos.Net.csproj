@@ -2,6 +2,20 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>Hones.Kairos.Net</PackageId>
+    <Title>Kairos.Net</Title>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Authors>Vincent Nyanga</Authors>
+    <PackageProjectUrl>https://github.com/vince-nyanga/Kairos.Net</PackageProjectUrl>
+    <Description>A .NET wrapper for the Kairos API</Description>
+    <Summary>A .NET wrapper for the Kairos API</Summary>
+    <RepositoryUrl>https://github.com/vince-nyanga/Kairos.Net</RepositoryUrl>
+    <PackageTags>kairos api</PackageTags>
+    <PackageReleaseNotes>Initial release</PackageReleaseNotes>
+    <Version>0.8.1</Version>
+    <AssemblyName>Kairos.Net</AssemblyName>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
   </PropertyGroup>
 
   <ItemGroup>
