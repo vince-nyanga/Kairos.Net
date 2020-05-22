@@ -19,7 +19,7 @@ namespace Kairos.Net.IntegrationTests
 
 
             var response = await client.EnrollFaceAsync(
-                (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
+                (Base64Image)TestUtils.TestImage,
                 _subjectId,
                 _galleryName);
 
@@ -51,7 +51,7 @@ namespace Kairos.Net.IntegrationTests
 
 
             var response = await client.VerifyFaceAsync(
-                (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
+                (Base64Image)TestUtils.TestImage,
                 _subjectId,
                 _galleryName);
 
@@ -83,7 +83,7 @@ namespace Kairos.Net.IntegrationTests
 
 
             var response = await client.RecognizeFaceAsync(
-                (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg", // This is cheating
+                (Base64Image)TestUtils.TestImage,
                 _galleryName);
 
             response.Should().NotBeNull();
@@ -115,8 +115,7 @@ namespace Kairos.Net.IntegrationTests
             var client = CreateClient();
 
 
-            var response = await client.DetectFacesAsync(
-                (Base64Image)"https://media.kairos.com/kairos-elizabeth.jpg");
+            var response = await client.DetectFacesAsync((Base64Image)TestUtils.TestImage);
 
             response.Should().NotBeNull();
             response.Images.Count.Should().Be(1);
