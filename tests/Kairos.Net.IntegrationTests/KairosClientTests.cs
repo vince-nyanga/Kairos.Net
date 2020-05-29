@@ -189,7 +189,7 @@ namespace Kairos.Net.IntegrationTests
         {
             return new KairosClient(
                 appId: "4985f625",
-                apiKey: "aa9e5d2ec3b00306b2d9588c3a25d68e",
+                appKey: "aa9e5d2ec3b00306b2d9588c3a25d68e",
                 baseUrl: "https://private-anon-f75b0626dc-kairos.apiary-mock.com");
             
         }

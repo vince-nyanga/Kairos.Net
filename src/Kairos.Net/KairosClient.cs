@@ -11,19 +11,19 @@ namespace Kairos.Net
         private const string CONTENT_TYPE = "application/json";
 
         private readonly string _appId;
-        private readonly string _apiKey;
+        private readonly string _appKey;
         private readonly IRestClient _restClient;
 
-        public KairosClient(string appId, string apiKey, string baseUrl= "https://api.kairos.com")
+        public KairosClient(string appId, string appKey, string baseUrl= "https://api.kairos.com")
         {
             if (string.IsNullOrWhiteSpace(appId))
             {
                 throw new ArgumentException("appId is required", nameof(appId));
             }
 
-            if (string.IsNullOrWhiteSpace(apiKey))
+            if (string.IsNullOrWhiteSpace(appKey))
             {
-                throw new ArgumentException("apiKey is required", nameof(apiKey));
+                throw new ArgumentException("apiKey is required", nameof(appKey));
             }
 
             if (string.IsNullOrWhiteSpace(baseUrl))
@@ -32,7 +32,7 @@ namespace Kairos.Net
             }
 
             _appId = appId;
-            _apiKey = apiKey;
+            _appKey = appKey;
             _restClient = new RestClient(baseUrl);
         }
 
@@ -172,7 +172,7 @@ namespace Kairos.Net
             };
 
             request.AddHeader("app_id", _appId);
-            request.AddHeader("app_key", _apiKey);
+            request.AddHeader("app_key", _appKey);
             request.AddHeader("Content-Type", CONTENT_TYPE);
 
             return request;
