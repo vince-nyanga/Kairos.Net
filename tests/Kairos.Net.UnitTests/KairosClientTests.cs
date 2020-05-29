@@ -23,12 +23,12 @@ namespace Kairos.Net.UnitTests
         [TestCase(null)]
         [TestCase("")]
         [TestCase("\t")]
-        public void Constructor_WithNullOrWhiteSpaceApiKey_ThrowsException(string apiKey)
+        public void Constructor_WithNullOrWhiteSpaceAppKey_ThrowsException(string appKey)
         {
-            Action action = () => new KairosClient("appId", apiKey);
+            Action action = () => new KairosClient("appId", appKey);
 
             action.Should().Throw<ArgumentException>()
-                .And.ParamName.Should().Be("apiKey");
+                .And.ParamName.Should().Be("appKey");
         }
 
         [TestCase(null)]
