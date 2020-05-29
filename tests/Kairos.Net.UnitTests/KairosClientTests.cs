@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Kairos.Net.Interfaces;
 using Kairos.Net.Models;
 using NUnit.Framework;
 
@@ -292,7 +293,7 @@ namespace Kairos.Net.UnitTests
                 .And.ParamName.Should().Be("galleryName");
         }
 
-        private KairosClient CreateClient()
+        private IKairosClient CreateClient()
         {
             return new KairosClient("fakeAppId", "fakeApiKey");
         }

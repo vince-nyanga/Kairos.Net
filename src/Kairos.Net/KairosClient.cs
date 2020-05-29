@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Kairos.Net.Interfaces;
 using Kairos.Net.Models;
 using Newtonsoft.Json;
 using RestSharp;
 
 namespace Kairos.Net
 {
-    public class KairosClient
-    { 
+    public class KairosClient : IKairosClient
+    {
         private const string CONTENT_TYPE = "application/json";
 
         private readonly string _appId;
         private readonly string _appKey;
         private readonly IRestClient _restClient;
 
-        public KairosClient(string appId, string appKey, string baseUrl= "https://api.kairos.com")
+        public KairosClient(string appId, string appKey, string baseUrl = "https://api.kairos.com")
         {
             if (string.IsNullOrWhiteSpace(appId))
             {
@@ -36,7 +37,7 @@ namespace Kairos.Net
             _restClient = new RestClient(baseUrl);
         }
 
-      
+
         public Task<EnrollFaceResponse> EnrollFaceAsync(Base64Image base64Image, string subjectId, string galleryName)
         {
             if (base64Image is null)
@@ -68,7 +69,7 @@ namespace Kairos.Net
         {
             if (imageUri is null)
             {
-                throw new ArgumentException("image uri is required",nameof(imageUri));
+                throw new ArgumentException("image uri is required", nameof(imageUri));
             }
 
             if (string.IsNullOrWhiteSpace(subjectId))
@@ -88,7 +89,7 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendPostRequest<EnrollFaceResponse>("enroll",payload); 
+            return SendPostRequest<EnrollFaceResponse>("enroll", payload);
         }
 
 
@@ -96,7 +97,7 @@ namespace Kairos.Net
         {
             if (base64Image is null)
             {
-                throw new ArgumentException("base64 image is required",nameof(base64Image));
+                throw new ArgumentException("base64 image is required", nameof(base64Image));
             }
 
             if (string.IsNullOrWhiteSpace(subjectId))
@@ -142,10 +143,10 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendPostRequest<VerifyFaceResponse>("verify",payload);
+            return SendPostRequest<VerifyFaceResponse>("verify", payload);
         }
 
-        private async Task<T> SendPostRequest<T>(string resourceUri,object payload)
+        private async Task<T> SendPostRequest<T>(string resourceUri, object payload)
         {
             var request = CreateRequest(resourceUri, Method.POST);
 
@@ -153,7 +154,7 @@ namespace Kairos.Net
             {
                 request.AddJsonBody(payload);
             }
-            
+
             var response = await _restClient.ExecuteAsync(request);
 
             return JsonConvert.DeserializeObject<T>(response.Content);
@@ -203,7 +204,7 @@ namespace Kairos.Net
         {
             if (imageUri is null)
             {
-                throw new ArgumentException("image uri is required",nameof(imageUri));
+                throw new ArgumentException("image uri is required", nameof(imageUri));
             }
 
             if (string.IsNullOrWhiteSpace(galleryName))
@@ -217,14 +218,14 @@ namespace Kairos.Net
                 gallery_name = galleryName
             };
 
-            return SendPostRequest<RecognizeFaceResponse>("recognize",payload);
+            return SendPostRequest<RecognizeFaceResponse>("recognize", payload);
         }
 
         public Task<DetectFacesResponse> DetectFacesAsync(Base64Image base64Image, string selector = "ROLL")
         {
             if (base64Image is null)
             {
-                throw new ArgumentException("base64 image is required",nameof(base64Image));
+                throw new ArgumentException("base64 image is required", nameof(base64Image));
             }
 
             var payload = new
@@ -240,7 +241,7 @@ namespace Kairos.Net
         {
             if (imageUri is null)
             {
-                throw new ArgumentException("image uri is required",nameof(imageUri));
+                throw new ArgumentException("image uri is required", nameof(imageUri));
             }
 
             var payload = new
@@ -280,6 +281,6 @@ namespace Kairos.Net
             };
 
             return SendPostRequest<RemoveGalleryResponse>("gallery/remove", payload);
-        }   
+        }
     }
 }
