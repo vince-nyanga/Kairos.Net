@@ -11,8 +11,8 @@
     <Summary>A .NET wrapper for the Kairos API</Summary>
     <RepositoryUrl>https://github.com/vince-nyanga/Kairos.Net</RepositoryUrl>
     <PackageTags>kairos api</PackageTags>
-    <PackageReleaseNotes>Minor changes</PackageReleaseNotes>
-    <Version>0.8.3</Version>
+    <PackageReleaseNotes>Added interface for API</PackageReleaseNotes>
+    <Version>0.9.0</Version>
     <IconUrl>https://raw.githubusercontent.com/vince-nyanga/kairos.net/master/logo.png</IconUrl>
     <AssemblyName>Kairos.Net</AssemblyName>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>

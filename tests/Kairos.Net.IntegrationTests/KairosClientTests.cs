@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using FluentAssertions;
+using Kairos.Net.Interfaces;
 using Kairos.Net.Models;
 using NUnit.Framework;
 
@@ -185,7 +186,7 @@ namespace Kairos.Net.IntegrationTests
             response.Errors.Should().BeNullOrEmpty();
         }
 
-        private KairosClient CreateClient()
+        private IKairosClient CreateClient()
         {
             return new KairosClient(
                 appId: "4985f625",
